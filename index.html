@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRONOS VAULT // SURVIVAL COMMAND CENTER</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☢️</text></svg>">
+</head>
+<body>
+
+    <!-- SCANLINES OVERLAY -->
+    <div class="scanlines"></div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <h1 class="glitch" data-text="CHRONOS VAULT">CHRONOS VAULT</h1>
+            <span class="subtitle">// SURVIVAL COMMAND CENTER v2.0</span>
+        </div>
+        <div class="header-center">
+            <div id="liveClock" class="live-clock">00:00:00</div>
+            <div id="liveDate" class="live-date">LOADING...</div>
+        </div>
+        <div class="header-right">
+            <div class="status-indicators">
+                <span id="sysStatus" class="status online">● SYS NOMINAL</span>
+                <span id="timerMini" class="status idle">⏲ IDLE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- TAB NAVIGATION -->
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="tab-dashboard">📊 DASHBOARD</button>
+        <button class="tab-btn" data-tab="tab-timer">⏲ TIMER & COUNTDOWN</button>
+        <button class="tab-btn" data-tab="tab-calc">🔢 CALCULATOR</button>
+        <button class="tab-btn" data-tab="tab-subnet">🌐 SUBNET TOOL</button>
+        <button class="tab-btn" data-tab="tab-tasks">📋 MISSION LOG</button>
+        <button class="tab-btn" data-tab="tab-reference">📚 REFERENCE</button>
+    </nav>
+
+    <!-- TAB CONTENT -->
+    <main class="tab-content-wrapper">
+
+        <!-- TAB: DASHBOARD -->
+        <section class="tab-content active" id="tab-dashboard">
+            <div class="dashboard-grid-double">
+                <!-- Clock Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">🕐</span>
+                        <h2>SYSTEM CLOCK</h2>
+                    </div>
+                    <div class="panel-body clock-panel-body">
+                        <div id="clockDisplayLarge" class="clock-large">00:00:00</div>
+                        <div id="dateDisplayLarge" class="date-large">LOADING...</div>
+                    </div>
+                </div>
+
+                <!-- Countdown Mini -->
+                <div class="panel panel-accent">
+                    <div class="panel-header">
+                        <span class="panel-icon">⏳</span>
+                        <h2>FINAL COUNTDOWN</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div id="countdownMini" class="countdown-mini">
+                            <span id="cdm-days">00</span>d
+                            <span id="cdm-hours">00</span>h
+                            <span id="cdm-mins">00</span>m
+                            <span id="cdm-secs">00</span>s
+                        </div>
+                        <div id="countdownLabel" class="countdown-label-sm">NO TARGET SET</div>
+                    </div>
+                </div>
+
+                <!-- Timer Mini -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">⏲</span>
+                        <h2>FOCUS TIMER</h2>
+                    </div>
+                    <div class="panel-body timer-mini-body">
+                        <div id="timerMiniDisplay" class="timer-mini-display">25:00</div>
+                        <div class="timer-mini-controls">
+                            <button id="btnTimerMiniStart" class="btn btn-sm btn-primary">▶</button>
+                            <button id="btnTimerMiniPause" class="btn btn-sm btn-warning" disabled>⏸</button>
+                            <button id="btnTimerMiniReset" class="btn btn-sm btn-danger">↺</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Mini -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">📊</span>
+                        <h2>SURVIVOR STATS</h2>
+                    </div>
+                    <div class="panel-body stats-mini">
+                        <div class="stat-row"><span>FOCUS TIME:</span><span id="statFocus">0h 0m</span></div>
+                        <div class="stat-row"><span>CYCLES TODAY:</span><span id="statCycles">0</span></div>
+                        <div class="stat-row"><span>TASKS DONE:</span><span id="statTasks">0</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: TIMER & COUNTDOWN -->
+        <section class="tab-content" id="tab-timer">
+            <div class="dashboard-grid-double">
+                <!-- Full Countdown -->
+                <div class="panel panel-accent">
+                    <div class="panel-header">
+                        <span class="panel-icon">⏳</span>
+                        <h2>FINAL COUNTDOWN</h2>
+                        <span class="panel-badge pulse">ACTIVE</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="countdownTargetFull" class="countdown-label">TARGET: NOT SET</div>
+                        <div id="countdownFull" class="countdown-full">
+                            <div class="cd-unit"><span id="cdf-days">00</span><label>DAYS</label></div>
+                            <span class="cd-sep">:</span>
+                            <div class="cd-unit"><span id="cdf-hours">00</span><label>HOURS</label></div>
+                            <span class="cd-sep">:</span>
+                            <div class="cd-unit"><span id="cdf-mins">00</span><label>MINS</label></div>
+                            <span class="cd-sep">:</span>
+                            <div class="cd-unit"><span id="cdf-secs">00</span><label>SECS</label></div>
+                        </div>
+                        <button id="btnSetCountdown" class="btn btn-primary btn-full">SET TARGET DATE</button>
+                    </div>
+                </div>
+
+                <!-- Full Timer -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">⏲</span>
+                        <h2>FOCUS PROTOCOL</h2>
+                        <span class="panel-badge" id="timerPhaseBadge">IDLE</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="timerFull" class="timer-full-display">25:00</div>
+                        <div class="timer-controls">
+                            <button id="btnTimerStart" class="btn btn-primary">▶ START</button>
+                            <button id="btnTimerPause" class="btn btn-warning" disabled>⏸ PAUSE</button>
+                            <button id="btnTimerReset" class="btn btn-danger">↺ RESET</button>
+                        </div>
+                        <div class="timer-settings">
+                            <label>FOCUS: <input type="number" id="focusMinutes" value="25" min="1" max="120"> min</label>
+                            <label>BREAK: <input type="number" id="breakMinutes" value="5" min="1" max="60"> min</label>
+                        </div>
+                        <div id="timerCycles" class="timer-cycles">CYCLES COMPLETED: 0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: CALCULATOR -->
+        <section class="tab-content" id="tab-calc">
+            <div class="panel panel-full">
+                <div class="panel-header">
+                    <span class="panel-icon">🔢</span>
+                    <h2>STANDARD CALCULATOR</h2>
+                </div>
+                <div class="panel-body calc-body">
+                    <div id="calcDisplay" class="calc-display">0</div>
+                    <div class="calc-keypad">
+                        <button class="calc-btn calc-func" data-action="clear">AC</button>
+                        <button class="calc-btn calc-func" data-action="sign">±</button>
+                        <button class="calc-btn calc-func" data-action="percent">%</button>
+                        <button class="calc-btn calc-op" data-action="/">÷</button>
+
+                        <button class="calc-btn calc-num" data-action="7">7</button>
+                        <button class="calc-btn calc-num" data-action="8">8</button>
+                        <button class="calc-btn calc-num" data-action="9">9</button>
+                        <button class="calc-btn calc-op" data-action="*">×</button>
+
+                        <button class="calc-btn calc-num" data-action="4">4</button>
+                        <button class="calc-btn calc-num" data-action="5">5</button>
+                        <button class="calc-btn calc-num" data-action="6">6</button>
+                        <button class="calc-btn calc-op" data-action="-">−</button>
+
+                        <button class="calc-btn calc-num" data-action="1">1</button>
+                        <button class="calc-btn calc-num" data-action="2">2</button>
+                        <button class="calc-btn calc-num" data-action="3">3</button>
+                        <button class="calc-btn calc-op" data-action="+">+</button>
+
+                        <button class="calc-btn calc-num calc-zero" data-action="0">0</button>
+                        <button class="calc-btn calc-num" data-action=".">.</button>
+                        <button class="calc-btn calc-eq" data-action="=">=</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: SUBNET TOOL -->
+        <section class="tab-content" id="tab-subnet">
+            <div class="panel panel-full">
+                <div class="panel-header">
+                    <span class="panel-icon">🌐</span>
+                    <h2>SUBNET CALCULATOR</h2>
+                    <span class="panel-badge">NETWORK</span>
+                </div>
+                <div class="panel-body subnet-body">
+                    <div class="subnet-inputs">
+                        <div class="input-group">
+                            <label>IP ADDRESS</label>
+                            <input type="text" id="subnetIP" placeholder="192.168.1.0" class="terminal-input">
+                        </div>
+                        <div class="input-group">
+                            <label>SUBNET MASK</label>
+                            <input type="text" id="subnetMask" placeholder="255.255.255.0 or /24" class="terminal-input">
+                        </div>
+                        <button id="btnSubnetCalc" class="btn btn-primary">⚡ CALCULATE</button>
+                    </div>
+                    <div id="subnetResults" class="subnet-results">
+                        <div class="result-card"><span>NETWORK</span><strong id="resNetwork">--</strong></div>
+                        <div class="result-card"><span>BROADCAST</span><strong id="resBroadcast">--</strong></div>
+                        <div class="result-card"><span>HOST RANGE</span><strong id="resRange">--</strong></div>
+                        <div class="result-card"><span>USABLE HOSTS</span><strong id="resHosts">--</strong></div>
+                        <div class="result-card"><span>CIDR NOTATION</span><strong id="resCIDR">--</strong></div>
+                        <div class="result-card"><span>BINARY MASK</span><strong id="resBinary">--</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: MISSION LOG -->
+        <section class="tab-content" id="tab-tasks">
+            <div class="panel panel-full">
+                <div class="panel-header">
+                    <span class="panel-icon">📋</span>
+                    <h2>MISSION LOG</h2>
+                    <span class="panel-badge" id="taskCount">0</span>
+                </div>
+                <div class="panel-body tasks-body">
+                    <div class="task-input-row">
+                        <input type="text" id="taskInput" placeholder="ENTER NEW OBJECTIVE..." class="terminal-input">
+                        <button id="btnAddTask" class="btn btn-primary">+ ADD</button>
+                    </div>
+                    <ul id="taskList" class="task-list"></ul>
+                    <button id="btnClearDone" class="btn btn-sm btn-danger">PURGE COMPLETED</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB: REFERENCE -->
+        <section class="tab-content" id="tab-reference">
+            <div class="dashboard-grid-double">
+                <!-- Cheat Sheet -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">📚</span>
+                        <h2>SUBNET REFERENCE</h2>
+                    </div>
+                    <div class="panel-body cheat-body">
+                        <table class="cheat-table">
+                            <thead><tr><th>CIDR</th><th>MASK</th><th>HOSTS</th></tr></thead>
+                            <tbody id="cheatBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Detailed Stats -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">📊</span>
+                        <h2>DETAILED STATS</h2>
+                    </div>
+                    <div class="panel-body stats-detail">
+                        <div class="stat-card"><label>TOTAL FOCUS TIME</label><span id="statTotalFocus">0h 0m</span></div>
+                        <div class="stat-card"><label>CYCLES TODAY</label><span id="statCyclesToday">0</span></div>
+                        <div class="stat-card"><label>TASKS COMPLETED</label><span id="statTasksDone">0</span></div>
+                        <div class="stat-card"><label>SESSIONS</label><span id="statSessions">0</span></div>
+                        <button id="btnResetStats" class="btn btn-sm btn-danger">WIPE ALL DATA</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <span id="lastEvent">LAST EVENT: SYSTEM BOOT</span>
+        <span class="footer-center">CHRONOS VAULT v2.0 // BLUE NEON EDITION</span>
+        <span>☢️ DEPLOYED ☢️</span>
+    </footer>
+
+    <!-- NOTIFICATION OVERLAY -->
+    <div id="notificationOverlay" class="notification-overlay hidden">
+        <div class="notification-box">
+            <div class="notification-icon">⚠</div>
+            <div id="notificationTitle" class="notification-title">ALERT</div>
+            <div id="notificationMessage" class="notification-message"></div>
+            <button id="notificationDismiss" class="btn btn-warning">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/audio.js"></script>
+    <script src="assets/js/clock.js"></script>
+    <script src="assets/js/countdown.js"></script>
+    <script src="assets/js/timer.js"></script>
+    <script src="assets/js/mathCalc.js"></script>
+    <script src="assets/js/subnetCalc.js"></script>
+    <script src="assets/js/tasks.js"></script>
+    <script src="assets/js/cheatSheet.js"></script>
+    <script src="assets/js/notifications.js"></script>
+    <script src="assets/js/stats.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
